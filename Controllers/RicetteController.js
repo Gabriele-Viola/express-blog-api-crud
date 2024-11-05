@@ -1,3 +1,4 @@
+const { title } = require('process');
 const ricette = require('../database/db.js')
 
 const index = (req, res) => {
@@ -27,6 +28,23 @@ const show = (req, res) =>{
     }
     return res.status(200).json({ data: ricetta })
 }
+
+const store = (req, res) => {
+    const ricetta = {
+        title: req.body.title,
+        slug: req.body.slug,
+        content: req.body.content,
+        image: req.body.image,
+        tags: req.body.tags
+    }
+    ricette.push(ricetta)
+    return res.status(201).json({
+        status: 201,
+        data: ricette,
+        count: ricette.length
+    })
+}
+
 // const showFilterTags = (req, res) =>{
 //     console.log(req.params.tags);
     
@@ -38,7 +56,8 @@ const show = (req, res) =>{
 
 module.exports = {
     index,
-    show
+    show,
+    store
 }
 
 

@@ -4,15 +4,17 @@ const ricetteRouters = require('./routes/ricette.js')
 
 const ricette = require('./database/db.js')
 
-const PORT = 3000
-const HOST = 'http://localhost'
+const PORT = process.env.PORT
+const HOST = process.env.HOST
+
+app.use(express.json())
 
 app.listen(PORT, () => {
 
     console.log(`${HOST}:${PORT}`);
 
 })
- app.use('/', ricetteRouters)
+ app.use('/ricette', ricetteRouters)
 
 
  app.get('/filtra/:tags',(req, res) =>{
