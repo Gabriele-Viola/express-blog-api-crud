@@ -8,4 +8,6 @@ router.get('/ricette', RicetteController.index)
 router.get('/ricette/:slug', RicetteController.show)
 
 
+
+
 module.exports = router
