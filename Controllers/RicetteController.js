@@ -1,5 +1,6 @@
 const { title } = require('process');
 const ricette = require('../database/db.js')
+const fs = require('fs')
 
 const index = (req, res) => {
     let list = ''
@@ -38,6 +39,8 @@ const store = (req, res) => {
         tags: req.body.tags
     }
     ricette.push(ricetta)
+
+    fs.writeFileSync('./database/db.js', `module.exports = ${JSON.stringify(ricette, null, 4)}`)
     return res.status(201).json({
         status: 201,
         data: ricette,
