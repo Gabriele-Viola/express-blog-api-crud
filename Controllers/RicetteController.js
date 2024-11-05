@@ -1,18 +1,19 @@
 const { title } = require('process');
 const ricette = require('../database/db.js')
-const fs = require('fs')
+const fs = require('fs');
+const send = require('send');
 
 const index = (req, res) => {
-    let list = ''
-    ricette.forEach(ricetta => {
-        list += `<li>${ricetta.title}</li>`
-    });
-    const unorderlist = `<ul>${list}</ul>`
-    res.send(unorderlist)
-    // res.json({
-    //     data: ricette,
-    //     counter: ricette.lenght
-    // })
+    // let list = ''
+    // ricette.forEach(ricetta => {
+    //     list += `<li>${ricetta.title}</li>`
+    // });
+    // const unorderlist = `<ul>${list}</ul>`
+    // res.send(unorderlist)
+    res.json({
+        data: ricette,
+        counter: ricette.lenght
+    })
 }
 
 const show = (req, res) =>{
@@ -48,6 +49,28 @@ const store = (req, res) => {
     })
 }
 
+
+const update = (req, res) =>{
+    console.log(req.params);
+    const id = req.params.slug
+    const { title, slug, content, image, tags} = req.body
+    const ricetta = ricette.find(ricetta => ricetta.slug === id)
+    if (!ricetta){
+        return res.status(404).json({error: `Nessuna ricetta da aggiornare con il nome ${id}`})
+    }
+     ricetta.title = title
+     ricetta.content = content
+     ricetta.image = image
+     ricetta.tags = tags
+     return res.status(201).json({
+        status:201,
+        data: ricette
+     })
+
+    
+     
+
+}
 // const showFilterTags = (req, res) =>{
 //     console.log(req.params.tags);
     
@@ -60,7 +83,8 @@ const store = (req, res) => {
 module.exports = {
     index,
     show,
-    store
+    store,
+    update
 }
 
 
