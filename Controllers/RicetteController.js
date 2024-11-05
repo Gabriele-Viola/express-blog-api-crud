@@ -62,6 +62,9 @@ const update = (req, res) =>{
      ricetta.content = content
      ricetta.image = image
      ricetta.tags = tags
+
+     fs.writeFileSync('./database/db.js', `module.exports = ${JSON.stringify(ricette, null, 4)}`)
+     
      return res.status(201).json({
         status:201,
         data: ricette
