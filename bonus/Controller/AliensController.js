@@ -15,6 +15,13 @@ const show = (req, res) => {
  }
 
  const create = (req, res) => {
+    const controller = aliens.find( alien => alien.name.toLowerCase() === req.params.name)
+    if(controller){
+        return res.status(409).json({
+            status:409,
+            conflict: `alien name: '${req.params.name}' is already in use`
+        })
+    }
     const newAlien = {
         name: req.body.name,
       planet: req.body.planet,
