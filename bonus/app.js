@@ -7,7 +7,7 @@ aliensRouters= require('./routes/aliens.js')
 const aliensController = require('./Controller/AliensController.js')
 
 
-app.use(express.json())
+app.use(express.json()) // middleware for see the body of the request
 
 app.listen(PORT, () => {
     console.log({success: `Your server works at ${HOST}:${PORT}`})

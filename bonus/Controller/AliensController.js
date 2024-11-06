@@ -1,4 +1,5 @@
 const aliens = require('../database/aliens.js')
+const fs = require('fs')
 const index = (req, res) => {
     res.status(200).json({data: aliens, count: aliens.lenght})
 }
@@ -13,7 +14,28 @@ const show = (req, res) => {
      res.status(200).json(alien)    
  }
 
+ const create = (req, res) => {
+    const newAlien = {
+        name: req.body.name,
+      planet: req.body.planet,
+      species: req.body. species,
+      color: req.body.color,
+      abilities: req.body.abilities,
+      strength: req.body.strength
+    }
+    
+    aliens.push(newAlien)
+
+    fs.writeFileSync('./database/aliens.js', `module.exports = ${JSON.stringify(aliens, null, 4)}`)
+    
+    res.status(200).json({
+        data: aliens,
+        count: aliens.length
+    })
+    
+    }
 module.exports = {
     index,
-    show
+    show,
+    create
 }

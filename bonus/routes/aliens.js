@@ -6,4 +6,6 @@ router.get('/', aliensController.index)
 
 router.get('/:name', aliensController.show)
 
+router.post('/', aliensController.create)
+
 module.exports = router
