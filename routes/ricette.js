@@ -9,7 +9,9 @@ router.get('/:slug', RicetteController.show)
 
 router.post('/', RicetteController.store )
 
-router.patch('/:slug', RicetteController.update)
+router.put('/:slug', RicetteController.update)
+
+router.delete('/:slug', RicetteController.destroy)
 
 
 module.exports = router

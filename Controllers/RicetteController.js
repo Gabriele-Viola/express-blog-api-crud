@@ -2,6 +2,7 @@ const { title } = require('process');
 const ricette = require('../database/db.js')
 const fs = require('fs');
 const send = require('send');
+const { count } = require('console');
 
 const index = (req, res) => {
     // let list = ''
@@ -12,18 +13,15 @@ const index = (req, res) => {
     // res.send(unorderlist)
     res.json({
         data: ricette,
-        counter: ricette.lenght
+        count: ricette.length
     })
 }
 
-const show = (req, res) =>{
-
-    console.log(req.params);
-    
+const show = (req, res) =>{  
     
     
     const ricetta = ricette.find( (ricetta) => ricetta.slug === req.params.slug)
-    console.log(ricetta);
+    
     
     if(!ricetta){
         return res.status(404).json({error: "Nessuna ricetta trovata"})
@@ -32,6 +30,7 @@ const show = (req, res) =>{
 }
 
 const store = (req, res) => {
+    
     const ricetta = {
         title: req.body.title,
         slug: req.body.slug,
@@ -39,9 +38,12 @@ const store = (req, res) => {
         image: req.body.image,
         tags: req.body.tags
     }
+    console.log(ricetta);
+    
     ricette.push(ricetta)
 
     fs.writeFileSync('./database/db.js', `module.exports = ${JSON.stringify(ricette, null, 4)}`)
+
     return res.status(201).json({
         status: 201,
         data: ricette,
@@ -49,12 +51,11 @@ const store = (req, res) => {
     })
 }
 
-
 const update = (req, res) =>{
     console.log(req.params);
     const id = req.params.slug
     const { title, slug, content, image, tags} = req.body
-    const ricetta = ricette.find(ricetta => ricetta.slug === id)
+    const ricetta = ricette.find(ricetta => ricetta.slug.toLowerCase() === id)
     if (!ricetta){
         return res.status(404).json({error: `Nessuna ricetta da aggiornare con il nome ${id}`})
     }
@@ -74,6 +75,26 @@ const update = (req, res) =>{
      
 
 }
+
+const destroy = (req, res) => {
+    const id = req.params.slug
+    console.log(id);
+    
+    const ricetta = ricette.find( ricetta => ricetta.slug.toLowerCase() === id)
+    console.log(ricetta);
+    
+if(!ricetta) {
+    return res.status(404).json({
+        error: `Nessuna ricetta con nome ${id} è presente da eliminare`
+    })
+}
+const newRicette = ricette.filter( ricetta => ricetta.slug.toLowerCase() !== req.params.slug )
+    fs.writeFileSync('./database/db.js', `module.exports = ${JSON.stringify(newRicette, null, 4)}`)
+return res.status(200).json({
+    data: newRicette,
+    counter: newRicette.length
+})
+}
 // const showFilterTags = (req, res) =>{
 //     console.log(req.params.tags);
     
@@ -87,7 +108,8 @@ module.exports = {
     index,
     show,
     store,
-    update
+    update,
+    destroy
 }
 
 
