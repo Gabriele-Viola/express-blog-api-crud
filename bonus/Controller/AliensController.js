@@ -26,11 +26,22 @@ const show = (req, res) => {
         
         
         // const controller = aliens.find( alien => alien.name.toLowerCase() === newAlien.name)
-        console.log(
-
-            aliens.forEach( alien => alien.name)
-        );
-        console.log(newAlien.name);
+        aliens.forEach((alien) =>{
+            console.log(alien.name);
+            
+        })
+        const finder = aliens.find( (alien) => {
+            alien.name.toLocaleLowerCase() === newAlien.name
+        })
+        console.log(finder);
+   
+        
+        console.log(req.body.name);
+   
+        
+        
+        
+        // console.log(newAlien.name);
         // console.log(controller);
         
         // if(!controller){
