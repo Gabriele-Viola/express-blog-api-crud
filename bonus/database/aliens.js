@@ -64,16 +64,6 @@ module.exports = [
             "invisibility"
         ],
         "strength": 85
-    },
-    {
-        "name": "Zorblax22",
-        "planet": "Gorlaxia",
-        "species": "Xyloid",
-        "color": "green",
-        "abilities": [
-            "telepathy",
-            "invisibility"
-        ],
-        "strength": 85
     }
+
 ]

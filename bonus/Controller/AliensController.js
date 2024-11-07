@@ -23,9 +23,15 @@ const show = (req, res) => {
          abilities: req.body.abilities,
          strength: req.body.strength
         }
-        const controller = aliens.find( alien => alien.name.toLowerCase() === newAlien.name)
+        
+        
+        // const controller = aliens.find( alien => alien.name.toLowerCase() === newAlien.name)
+        console.log(
+
+            aliens.forEach( alien => alien.name)
+        );
         console.log(newAlien.name);
-        console.log(controller);
+        // console.log(controller);
         
         // if(!controller){
         //     return res.status(409).json({
