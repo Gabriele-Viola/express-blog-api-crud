@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const loggerMiddleware = require('./middlewares/loggerMiddleware.js')
 const notFoundMiddleware = require('./middlewares/notFound.js')
+const errorHandler = require('./middlewares/errorHandler.js')
 const ricetteRouters = require('./routes/ricette.js')
 
 const ricette = require('./database/db.js')
@@ -15,18 +16,20 @@ app.listen(PORT, () => {
 
     console.log(`${HOST}:${PORT}`);
 })
-app.use('/ricette', (req, res, next)=> {
-    throw new Error("you broke everything dude!")
-})
+// to create ad error
+
+// app.use('/ricette', (req, res, next)=> {
+//     throw new Error("you broke everything dude!")
+// })
 
 app.use('/ricette', loggerMiddleware)
 
 app.use('/ricette', ricetteRouters)
 
-app.use('/', (req, res) => {
-    res.status(200).send('<h1>Le ricette</h1>')
-})
-
+// app.use('/', (req, res) => {
+//     res.status(200).send('<h1>Le ricette</h1>')
+// })
+app.use(errorHandler)
 app.use(notFoundMiddleware)
 
 //  app.get('/filtra/:tags',(req, res) =>{
