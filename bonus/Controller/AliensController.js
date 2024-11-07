@@ -15,25 +15,28 @@ const show = (req, res) => {
  }
 
  const create = (req, res) => {
-    const controller = aliens.find( alien => alien.name.toLowerCase() === req.params.name)
-    if(controller){
-        return res.status(409).json({
-            status:409,
-            conflict: `alien name: '${req.params.name}' is already in use`
-        })
-    }
-    const newAlien = {
-        name: req.body.name,
-      planet: req.body.planet,
-      species: req.body. species,
-      color: req.body.color,
-      abilities: req.body.abilities,
-      strength: req.body.strength
-    }
+     const newAlien = {
+         name: req.body.name,
+         planet: req.body.planet,
+         species: req.body. species,
+         color: req.body.color,
+         abilities: req.body.abilities,
+         strength: req.body.strength
+        }
+        const controller = aliens.find( alien => alien.name.toLowerCase() === newAlien.name)
+        console.log(newAlien.name);
+        console.log(controller);
+        
+        // if(!controller){
+        //     return res.status(409).json({
+        //         status:409,
+        //         conflict: `alien name: '${req.params.name}' is already in use`
+        //     })
+        // }
     
-    aliens.push(newAlien)
+    // aliens.push(newAlien)
 
-    fs.writeFileSync('./database/aliens.js', `module.exports = ${JSON.stringify(aliens, null, 4)}`)
+    // fs.writeFileSync('./database/aliens.js', `module.exports = ${JSON.stringify(aliens, null, 4)}`)
     
     res.status(200).json({
         data: aliens,
