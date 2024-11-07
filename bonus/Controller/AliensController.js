@@ -24,11 +24,24 @@ const create = (req, res) => {
         strength: req.body.strength
     }
 
+// let controller = ""
+for (let key in newAlien){
+    if (newAlien[key] == "") {
+        console.log(newAlien[key],'error');
+        return res.status(400).json({
+            status: 400,
+            message: 'You Must complete all fields'
+        })
+    }
 
-    const controller = aliens.find(alien => alien.name.toLowerCase() === newAlien.name.toLowerCase())?.name
+}
+// console.log('this is controller', controller);
+
+
+    const finder = aliens.find(alien => alien.name.toLowerCase() === newAlien.name.toLowerCase())?.name
     
     
-    if(controller == undefined){
+    if(finder == undefined){
         aliens.push(newAlien)
         
         fs.writeFileSync('./database/aliens.js', `module.exports = ${JSON.stringify(aliens, null, 4)}`)
@@ -40,7 +53,7 @@ const create = (req, res) => {
     }
     return res.status(409).json({
         status:409,
-        conflict: `alien name: '${controller}' is already in use`
+        conflict: `alien name: '${finder}' is already in use`
     })
 
 
