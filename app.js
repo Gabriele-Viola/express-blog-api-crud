@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const loggerMiddleware = require('./middlewares/loggerMiddleware.js')
 const notFoundMiddleware = require('./middlewares/notFound.js')
 const ricetteRouters = require('./routes/ricette.js')
 
@@ -14,6 +15,12 @@ app.listen(PORT, () => {
 
     console.log(`${HOST}:${PORT}`);
 })
+app.use('/ricette', (req, res, next)=> {
+    throw new Error("you broke everything dude!")
+})
+
+app.use('/ricette', loggerMiddleware)
+
 app.use('/ricette', ricetteRouters)
 
 app.use('/', (req, res) => {
