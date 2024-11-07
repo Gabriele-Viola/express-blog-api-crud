@@ -64,16 +64,5 @@ module.exports = [
             "invisibility"
         ],
         "strength": 85
-    },
-    {
-        "name": "Quelloli",
-        "planet": "Gorlaxia",
-        "species": "Xyloid",
-        "color": "green",
-        "abilities": [
-            "telepathy",
-            "invisibility"
-        ],
-        "strength": 85
     }
 ]

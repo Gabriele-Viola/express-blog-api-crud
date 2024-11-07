@@ -26,16 +26,6 @@ const create = (req, res) => {
 
 
     const controller = aliens.find(alien => alien.name.toLowerCase() === newAlien.name.toLowerCase())?.name
-
-
-    console.log(controller);
-
-
-    console.log(req.body.name);
-
-
-
-
     
     
     if(controller == undefined){
@@ -43,6 +33,7 @@ const create = (req, res) => {
         
         fs.writeFileSync('./database/aliens.js', `module.exports = ${JSON.stringify(aliens, null, 4)}`)
         return res.status(200).json({
+            mesaage: `Your create successfuly your alien`, 
             data: aliens,
             count: aliens.length
         })
@@ -55,8 +46,36 @@ const create = (req, res) => {
 
 
 }
+
+const destroy = (req, res) => {
+
+    const controller = aliens.find(alien => alien.name.toLowerCase() === req.params.name.toLowerCase())?.name
+    
+    console.log(req.params.name);
+    console.log('this is controller', controller);
+    
+    
+
+    if( controller == undefined){
+        return res.status(404).json({
+            status:'404',
+            message:`${req.params.name} no found`
+        })
+    }
+
+    const newAliens = aliens.filter(alien => alien.name.toLowerCase() !== req.params.name.toLowerCase())
+    console.log('this is array', newAliens);
+    fs.writeFileSync('./database/aliens.js', `module.exports = ${JSON.stringify(newAliens, null, 4)}`)
+    
+    return res.status(200).json({
+        status: '200',
+        message:`You delete ${req.params.name} correctly`,
+        list: newAliens
+    })
+}
 module.exports = {
     index,
     show,
-    create
+    create,
+    destroy
 }
