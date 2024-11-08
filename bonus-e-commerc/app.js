@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
-const productsControllers = require('./Controllers/productsControllers.js')
+app.use(express.json())
+const productsRouter = require('./Routes/productsRouter.js')
 const PORT = process.env.PORT
 const HOST = process.env.HOST
 
@@ -11,6 +12,4 @@ app.listen(PORT, () => {
     
 })
 
-app.get('/products', productsControllers.index)
-
-app.get('/products/:id', productsControllers.show)
+app.use('/products', productsRouter)
