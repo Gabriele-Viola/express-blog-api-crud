@@ -9,6 +9,9 @@ router.get('/:id', productsControllers.show)
 
 router.post('/', productsControllers.store)
 
-router.put('/:name', productsControllers.update )
+router.put('/:name', productsControllers.update)
+
+router.delete('/:name', productsControllers.destroy)
+
 
 module.exports = router

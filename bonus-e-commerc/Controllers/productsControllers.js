@@ -1,3 +1,4 @@
+const { count } = require("console");
 const products = require("../database/products.js");
 const fs = require('fs')
 const index = (req, res) => {
@@ -10,6 +11,7 @@ const index = (req, res) => {
 const show = (req, res) => {
     console.log(req.params.id);
 
+
     const product = products.find((product) => product.id === parseInt(req.params.id))
 
     if (!product) {
@@ -21,6 +23,20 @@ const show = (req, res) => {
     return res.status(200).json({
         data: product
     })
+}
+
+const search = (req, res) => {
+    console.log(req.query.amount);
+    const { id, name, amount, description, price } = req.query
+
+    console.log(name, amount, price);
+
+    return res.status(200).json({
+        name: req.query.name,
+        amount: req.query.amount,
+        price: req.query.price
+    })
+
 }
 
 const store = (req, res) => {
@@ -68,10 +84,34 @@ const update = (req, res) => {
         data: products
     })
 }
+
+const destroy = (req, res) => {
+
+    const productToDelete = products.find(product => product.name.replace(/\s+/g, '').toLowerCase() === req.params.name)
+
+
+    if (!productToDelete) {
+        return res.status(404).json({
+            error: `no ${req.params.name} found to delete`
+        })
+    }
+    const newList = products.filter(product => product.id !== productToDelete.id)
+
+    fs.writeFileSync('./database/products.js', `module.exports = ${JSON.stringify(newList, null, 4)}`)
+
+    return res.status(201).json({
+        message: `You delete ${productToDelete.name} correctly`,
+        data: newList,
+        count: newList.length
+    })
+}
+
 module.exports = {
     index,
     show,
     store,
-    update
+    update,
+    destroy,
+    search
 }
 

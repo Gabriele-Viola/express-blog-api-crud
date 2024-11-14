@@ -68,12 +68,5 @@ module.exports = [
         "amount": 10,
         "description": "Tastiera meccanica con retroilluminazione RGB e tasti intercambiabili",
         "price": 89.99
-    },
-    {
-        "id": 11,
-        "name": "MacBook",
-        "amoun": 10,
-        "description": "Laptop portatile con display da 15 pollici e processore Intel i5",
-        "price": 800
     }
 ]
