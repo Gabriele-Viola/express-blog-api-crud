@@ -1,11 +1,18 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const loggerMiddleware = require('./middlewares/loggerMiddleware.js')
 const notFoundMiddleware = require('./middlewares/notFound.js')
 const errorHandler = require('./middlewares/errorHandler.js')
 const ricetteRouters = require('./routes/ricette.js')
+app.use(express.static('public'))
 
 const ricette = require('./database/db.js')
+app.use(cors())
+const corsOperetor = {
+    origin: 'http://localhost:5174/',
+    operetorStatus: 200
+}
 
 const PORT = process.env.PORT
 const HOST = process.env.HOST
@@ -25,6 +32,11 @@ app.listen(PORT, () => {
 app.use('/ricette', loggerMiddleware)
 
 app.use('/ricette', ricetteRouters)
+
+app.get('/', cors(corsOperetor), (req, res) => {
+    console.log( req.query);
+    
+})
 
 // app.use('/', (req, res) => {
 //     res.status(200).send('<h1>Le ricette</h1>')
